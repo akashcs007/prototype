@@ -1,0 +1,1706 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PaySecure - Complete Payment System</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #4F46E5;
+            --primary-dark: #4338CA;
+            --primary-light: #818CF8;
+            --secondary: #06B6D4;
+            --success: #10B981;
+            --warning: #F59E0B;
+            --danger: #EF4444;
+            --dark: #111827;
+            --gray-900: #1F2937;
+            --gray-800: #374151;
+            --gray-700: #4B5563;
+            --gray-600: #6B7280;
+            --gray-500: #9CA3AF;
+            --gray-400: #D1D5DB;
+            --gray-300: #E5E7EB;
+            --gray-200: #F3F4F6;
+            --gray-100: #F9FAFB;
+            --white: #FFFFFF;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: var(--gray-900);
+        }
+
+        .container {
+            max-width: 480px;
+            margin: 0 auto;
+            background: var(--white);
+            border-radius: 20px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            overflow: hidden;
+            animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Login Container */
+        .login-container {
+            max-width: 440px;
+            margin: 50px auto;
+            background: var(--white);
+            padding: 48px 40px;
+            border-radius: 24px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .login-header .logo-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 20px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 32px;
+        }
+
+        .login-header h1 {
+            color: var(--gray-900);
+            margin-bottom: 8px;
+            font-size: 32px;
+            font-weight: 800;
+        }
+
+        .login-header p {
+            color: var(--gray-600);
+            font-size: 15px;
+            font-weight: 500;
+        }
+
+        /* Header Styles */
+        .header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: var(--white);
+            padding: 40px 24px 32px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 8px;
+        }
+
+        .logo-icon {
+            width: 48px;
+            height: 48px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .logo h1 {
+            font-size: 32px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        .header .subtitle {
+            text-align: center;
+            opacity: 0.95;
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 24px;
+        }
+
+        .wallet-cards {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .wallet-card {
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 16px;
+            padding: 20px;
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .balance-label {
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            opacity: 0.9;
+            margin-bottom: 10px;
+        }
+
+        .balance-amount {
+            font-size: 24px;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            letter-spacing: -1px;
+        }
+
+        .coin-badge {
+            width: 28px;
+            height: 28px;
+            background: linear-gradient(135deg, #FCD34D 0%, #F59E0B 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            color: var(--gray-900);
+            font-size: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .cash-badge {
+            width: 28px;
+            height: 28px;
+            background: linear-gradient(135deg, #34D399 0%, #10B981 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            color: var(--white);
+            font-size: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .user-badge {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 10px 18px;
+            border-radius: 24px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .user-badge::before {
+            content: '';
+            width: 8px;
+            height: 8px;
+            background: #10B981;
+            border-radius: 50%;
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.3);
+        }
+
+        /* Content Styles */
+        .content {
+            padding: 24px;
+        }
+
+        .screen {
+            display: none;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .screen.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { 
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to { 
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .section-title {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 24px;
+            color: var(--gray-900);
+        }
+
+        /* Button Styles */
+        .btn {
+            width: 100%;
+            padding: 16px 24px;
+            border: none;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 12px;
+            position: relative;
+            overflow: hidden;
+            font-family: inherit;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 24px -10px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: var(--white);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+            color: var(--white);
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #EF4444 0%, #DC2626 100%);
+            color: var(--white);
+        }
+
+        .btn-warning {
+            background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
+            color: var(--white);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #06B6D4 0%, #0891B2 100%);
+            color: var(--white);
+        }
+
+        .btn-outline {
+            background: var(--white);
+            border: 2px solid var(--gray-300);
+            color: var(--gray-700);
+        }
+
+        /* Form Styles */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--gray-700);
+            margin-bottom: 8px;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid var(--gray-300);
+            border-radius: 10px;
+            font-size: 15px;
+            transition: all 0.3s ease;
+            font-family: inherit;
+            background: var(--white);
+            color: var(--gray-900);
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1);
+        }
+
+        /* Tab Buttons */
+        .tab-buttons {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 24px;
+            padding: 4px;
+            background: var(--gray-100);
+            border-radius: 12px;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            background: transparent;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: var(--gray-600);
+            font-size: 14px;
+        }
+
+        .tab-btn.active {
+            background: var(--white);
+            color: var(--primary);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Message Styles */
+        .error-message {
+            background: #FEE2E2;
+            color: #991B1B;
+            padding: 14px 16px;
+            border-radius: 10px;
+            margin-bottom: 24px;
+            font-size: 14px;
+            font-weight: 500;
+            border-left: 4px solid #DC2626;
+        }
+
+        .success-message {
+            background: #D1FAE5;
+            color: #065F46;
+            padding: 14px 16px;
+            border-radius: 10px;
+            margin-bottom: 24px;
+            font-size: 14px;
+            font-weight: 500;
+            border-left: 4px solid #10B981;
+        }
+
+        .info-box {
+            background: linear-gradient(135deg, #EEF2FF 0%, #E0E7FF 100%);
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 24px;
+            border-left: 4px solid var(--primary);
+        }
+
+        .info-box p {
+            font-size: 14px;
+            color: var(--gray-700);
+            line-height: 1.6;
+            font-weight: 500;
+        }
+
+        /* Back Button */
+        .back-btn {
+            background: var(--gray-100);
+            color: var(--gray-700);
+            padding: 12px 20px;
+            border: 2px solid var(--gray-200);
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+        }
+
+        .back-btn:hover {
+            background: var(--gray-200);
+            border-color: var(--gray-300);
+        }
+
+        /* Menu Grid */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        /* Order Card */
+        .order-card {
+            background: var(--white);
+            border: 2px solid var(--gray-200);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 16px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .order-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--primary);
+            border-radius: 16px 0 0 16px;
+        }
+
+        .order-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        .order-id {
+            font-size: 12px;
+            color: var(--gray-500);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .order-amount {
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .order-detail {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .order-detail label {
+            color: var(--gray-600);
+            font-weight: 600;
+        }
+
+        .order-detail span {
+            color: var(--gray-900);
+            font-weight: 500;
+        }
+
+        /* Status Badge */
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .status-initiated {
+            background: #E0E7FF;
+            color: #3730A3;
+        }
+
+        .status-accepted {
+            background: #D1FAE5;
+            color: #065F46;
+        }
+
+        .status-shipped {
+            background: #FED7AA;
+            color: #9A3412;
+        }
+
+        .status-completed {
+            background: #D1FAE5;
+            color: #065F46;
+        }
+
+        .status-cancelled {
+            background: #FEE2E2;
+            color: #991B1B;
+        }
+
+        .status-disputed {
+            background: #FEF3C7;
+            color: #92400E;
+        }
+
+        .action-section {
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 2px dashed var(--gray-300);
+        }
+
+        .action-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--gray-500);
+        }
+
+        .empty-state h3 {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--gray-700);
+            margin: 16px 0 8px;
+        }
+
+        .empty-state p {
+            font-size: 14px;
+            color: var(--gray-500);
+        }
+
+        /* Notification */
+        .notification {
+            position: fixed;
+            top: 24px;
+            right: 24px;
+            background: var(--white);
+            padding: 20px 24px;
+            border-radius: 16px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            display: none;
+            align-items: flex-start;
+            gap: 16px;
+            z-index: 1000;
+            animation: slideInRight 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            max-width: 380px;
+            border: 2px solid var(--gray-200);
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(100px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .notification.show {
+            display: flex;
+        }
+
+        .notification-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .notification-icon.success {
+            background: #D1FAE5;
+            color: #065F46;
+        }
+
+        .notification-icon.error {
+            background: #FEE2E2;
+            color: #991B1B;
+        }
+
+        .notification-content {
+            flex: 1;
+        }
+
+        .notification-title {
+            font-weight: 700;
+            margin-bottom: 4px;
+            color: var(--gray-900);
+            font-size: 15px;
+        }
+
+        .notification-message {
+            font-size: 14px;
+            color: var(--gray-600);
+            line-height: 1.5;
+        }
+
+        .badge {
+            background: var(--danger);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 700;
+            margin-left: 8px;
+        }
+
+        .role-selector {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .exchange-preview {
+            background: var(--gray-100);
+            padding: 16px;
+            border-radius: 10px;
+            margin-top: 12px;
+            text-align: center;
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .exchange-rate {
+            background: var(--gray-100);
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 14px;
+            color: var(--gray-700);
+        }
+    </style>
+</head>
+<body>
+    <!-- Login Screen -->
+    <div id="loginScreen" class="login-container">
+        <div class="login-header">
+            <div class="logo-icon">💳</div>
+            <h1>PaySecure</h1>
+            <p>Complete Payment & Escrow System</p>
+        </div>
+
+        <div class="tab-buttons">
+            <button class="tab-btn active" id="loginTab">Sign In</button>
+            <button class="tab-btn" id="registerTab">Sign Up</button>
+        </div>
+
+        <div id="authMessage" style="display: none;"></div>
+
+        <!-- Login Form -->
+        <div id="loginForm">
+            <div class="form-group">
+                <label>Email Address</label>
+                <input type="email" id="loginEmail" placeholder="user@example.com" value="user1@example.com">
+            </div>
+
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" id="loginPassword" placeholder="Enter your password" value="123456">
+            </div>
+
+            <button class="btn btn-primary" id="loginBtn">Sign In</button>
+
+            <div style="margin-top: 20px; padding: 16px; background: var(--gray-100); border-radius: 10px; font-size: 13px; color: var(--gray-600);">
+                <strong>Demo Accounts:</strong><br>
+                Email: user1@example.com / Pass: 123456<br>
+                Email: user2@example.com / Pass: 123456
+            </div>
+        </div>
+
+        <!-- Register Form -->
+        <div id="registerForm" style="display: none;">
+            <div class="form-group">
+                <label>Full Name</label>
+                <input type="text" id="registerName" placeholder="John Doe">
+            </div>
+
+            <div class="form-group">
+                <label>Email Address</label>
+                <input type="email" id="registerEmail" placeholder="user@example.com">
+            </div>
+
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" id="registerPassword" placeholder="Minimum 6 characters">
+            </div>
+
+            <button class="btn btn-primary" id="registerBtn">Create Account</button>
+        </div>
+    </div>
+
+    <!-- Main App Container -->
+    <div class="container" id="appContainer" style="display: none;">
+        <!-- Header -->
+        <div class="header">
+            <div class="header-content">
+                <div class="logo">
+                    <div class="logo-icon">💳</div>
+                    <h1>PaySecure</h1>
+                </div>
+                <p class="subtitle">Complete Payment System</p>
+                
+                <div class="wallet-cards">
+                    <div class="wallet-card">
+                        <div class="balance-label">Coins</div>
+                        <div class="balance-amount">
+                            <div class="coin-badge">C</div>
+                            <span id="walletBalance">0</span>
+                        </div>
+                    </div>
+                    <div class="wallet-card">
+                        <div class="balance-label">Cash</div>
+                        <div class="balance-amount">
+                            <div class="cash-badge">$</div>
+                            <span id="cashBalance">0</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="wallet-cards">
+                    <div class="wallet-card">
+                        <div class="balance-label">In Escrow</div>
+                        <div class="balance-amount">
+                            <div class="coin-badge" style="opacity: 0.6;">C</div>
+                            <span id="escrowBalance">0</span>
+                        </div>
+                    </div>
+                    <div class="wallet-card">
+                        <div class="balance-label">Total Value</div>
+                        <div class="balance-amount" style="font-size: 20px;">
+                            $<span id="totalValue">0</span>
+                        </div>
+                    </div>
+                </div>
+
+                <center>
+                    <div class="user-badge">
+                        <span id="currentUserDisplay"></span>
+                    </div>
+                </center>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="content">
+            <!-- Home Screen -->
+            <div id="homeScreen" class="screen active">
+                <div class="section-title">🏠 Main Menu</div>
+
+                <div class="menu-grid">
+                    <button class="btn btn-primary" id="sendPaymentBtn">💸 Send Payment</button>
+                    <button class="btn btn-success" id="receivePaymentBtn">💰 Request Payment</button>
+                </div>
+
+                <button class="btn btn-secondary" id="exchangeBtn">🔄 Exchange Currency</button>
+                <button class="btn btn-warning" id="businessBtn">🛍️ Business Payment</button>
+                <button class="btn btn-primary" id="ordersBtn">
+                    📦 My Orders
+                    <span id="ordersBadge" class="badge" style="display: none;">0</span>
+                </button>
+                <button class="btn btn-success" id="historyBtn">📜 Transaction History</button>
+                <button class="btn btn-outline" id="settingsBtn">⚙️ Settings</button>
+                <button class="btn btn-danger" id="logoutBtn">🚪 Sign Out</button>
+            </div>
+
+            <!-- Send Payment Screen -->
+            <div id="sendPaymentScreen" class="screen">
+                <button class="back-btn" id="sendBackBtn">← Back</button>
+                
+                <div class="section-title">💸 Send Payment</div>
+
+                <div class="info-box">
+                    <p><strong>Instant Transfer:</strong> Send coins or cash directly to any user.</p>
+                </div>
+
+                <div class="form-group">
+                    <label>Recipient Email</label>
+                    <input type="email" id="sendRecipientEmail" placeholder="recipient@example.com">
+                </div>
+
+                <div class="form-group">
+                    <label>Payment Type</label>
+                    <select id="sendPaymentType">
+                        <option value="coins">Coins</option>
+                        <option value="cash">Cash</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Amount</label>
+                    <input type="number" id="sendAmount" placeholder="Enter amount" min="0.01" step="0.01">
+                    <div id="sendBalanceInfo" style="margin-top: 8px; font-size: 13px; color: var(--gray-600);"></div>
+                </div>
+
+                <button class="btn btn-primary" id="sendPaymentSubmitBtn">Send Payment</button>
+            </div>
+
+            <!-- Exchange Screen -->
+            <div id="exchangeScreen" class="screen">
+                <button class="back-btn" id="exchangeBackBtn">← Back</button>
+                
+                <div class="section-title">🔄 Exchange Currency</div>
+
+                <div class="exchange-rate">Exchange Rate: 1 Coin = $1.00 USD</div>
+
+                <div class="tab-buttons">
+                    <button class="tab-btn active" id="coinToCashTab">Coin to Cash</button>
+                    <button class="tab-btn" id="cashToCoinTab">Cash to Coin</button>
+                </div>
+
+                <!-- Coin to Cash Form -->
+                <div id="coinToCashForm">
+                    <div class="form-group">
+                        <label>Amount in Coins</label>
+                        <input type="number" id="coinAmount" placeholder="Enter coins" min="1">
+                    </div>
+                    <div class="exchange-preview" id="coinToCashPreview">You will receive: $0.00</div>
+                    <button class="btn btn-warning" id="convertToCashBtn">Convert to Cash</button>
+                </div>
+
+                <!-- Cash to Coin Form -->
+                <div id="cashToCoinForm" style="display: none;">
+                    <div class="form-group">
+                        <label>Amount in Cash</label>
+                        <input type="number" id="cashAmount" placeholder="Enter cash" min="1" step="0.01">
+                    </div>
+                    <div class="exchange-preview" id="cashToCoinPreview">You will receive: 0 Coins</div>
+                    <button class="btn btn-success" id="convertToCoinBtn">Convert to Coins</button>
+                </div>
+            </div>
+
+            <!-- Business Payment Screen -->
+            <div id="businessPaymentScreen" class="screen">
+                <button class="back-btn" id="businessBackBtn">← Back</button>
+                
+                <div class="section-title">🛍️ Business Payment</div>
+
+                <div class="info-box">
+                    <p><strong>Escrow System:</strong> Secure payment with seller confirmation and delivery tracking.</p>
+                </div>
+
+                <div class="role-selector">
+                    <button class="btn btn-success" id="buyProductBtn">🛒 Buy Product</button>
+                    <button class="btn btn-warning" id="sellProductBtn">💼 Sell Products</button>
+                </div>
+            </div>
+
+            <!-- Buy Product Screen -->
+            <div id="buyProductScreen" class="screen">
+                <button class="back-btn" id="buyBackBtn">← Back</button>
+                
+                <div class="section-title">🛒 Buy Product</div>
+
+                <div class="form-group">
+                    <label>Seller Email</label>
+                    <input type="email" id="buySellerEmail" placeholder="seller@example.com">
+                </div>
+
+                <div class="form-group">
+                    <label>Product Name</label>
+                    <input type="text" id="productName" placeholder="e.g., Smart Watch">
+                </div>
+
+                <div class="form-group">
+                    <label>Amount (Coins)</label>
+                    <input type="number" id="buyAmount" placeholder="Enter amount" min="1">
+                </div>
+
+                <div class="form-group">
+                    <label>Description</label>
+                    <textarea id="buyDescription" placeholder="Product details..."></textarea>
+                </div>
+
+                <button class="btn btn-primary" id="placeOrderBtn">🔒 Place Order</button>
+            </div>
+
+            <!-- Sell Products Screen -->
+            <div id="sellProductsScreen" class="screen">
+                <button class="back-btn" id="sellBackBtn">← Back</button>
+                
+                <div class="section-title">💼 Incoming Orders</div>
+                
+                <div id="sellerOrdersList"></div>
+            </div>
+
+            <!-- My Orders Screen -->
+            <div id="ordersScreen" class="screen">
+                <button class="back-btn" id="ordersBackBtn">← Back</button>
+                
+                <div class="section-title">📦 My Orders</div>
+
+                <div class="tab-buttons">
+                    <button class="tab-btn active" id="buyerOrdersTab">As Buyer</button>
+                    <button class="tab-btn" id="sellerOrdersTab">As Seller</button>
+                </div>
+
+                <div id="ordersList"></div>
+            </div>
+
+            <!-- Transaction History Screen -->
+            <div id="historyScreen" class="screen">
+                <button class="back-btn" id="historyBackBtn">← Back</button>
+                
+                <div class="section-title">📜 Transaction History</div>
+                
+                <div id="historyList"></div>
+            </div>
+
+            <!-- Settings Screen -->
+            <div id="settingsScreen" class="screen">
+                <button class="back-btn" id="settingsBackBtn">← Back</button>
+                
+                <div class="section-title">⚙️ Settings</div>
+
+                <div class="form-group">
+                    <label>Your Name</label>
+                    <input type="text" id="userName" readonly>
+                </div>
+
+                <div class="form-group">
+                    <label>Your Email</label>
+                    <input type="email" id="userEmail" readonly>
+                </div>
+
+                <button class="btn btn-success" id="addTestFundsBtn">💰 Add 500 Coins & $500 Cash</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification -->
+    <div id="notification" class="notification">
+        <div class="notification-icon success">✓</div>
+        <div class="notification-content">
+            <div class="notification-title">Success</div>
+            <div class="notification-message">Operation completed successfully</div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize app data
+        const APP_NAME = 'paySecureApp';
+        
+        // Initialize data structure
+        let appData = {
+            users: [],
+            orders: [],
+            transactions: []
+        };
+
+        // Initialize default users if not exists
+        function initializeApp() {
+            const savedData = localStorage.getItem(APP_NAME);
+            
+            if (savedData) {
+                appData = JSON.parse(savedData);
+            } else {
+                // Create default users
+                appData.users = [
+                    {
+                        id: '1',
+                        name: 'User One',
+                        email: 'user1@example.com',
+                        password: '123456',
+                        coinBalance: 1000,
+                        cashBalance: 1000,
+                        escrowBalance: 0
+                    },
+                    {
+                        id: '2',
+                        name: 'User Two',
+                        email: 'user2@example.com',
+                        password: '123456',
+                        coinBalance: 1000,
+                        cashBalance: 1000,
+                        escrowBalance: 0
+                    }
+                ];
+                saveData();
+            }
+        }
+
+        // Save data
+        function saveData() {
+            localStorage.setItem(APP_NAME, JSON.stringify(appData));
+        }
+
+        // Get current user
+        function getCurrentUser() {
+            const userStr = sessionStorage.getItem('currentUser');
+            if (userStr) {
+                const sessionUser = JSON.parse(userStr);
+                // Get fresh data from storage
+                return appData.users.find(u => u.id === sessionUser.id);
+            }
+            return null;
+        }
+
+        // Set current user
+        function setCurrentUser(user) {
+            sessionStorage.setItem('currentUser', JSON.stringify(user));
+        }
+
+        // Show/hide screens
+        function showScreen(screenId) {
+            document.querySelectorAll('.screen').forEach(screen => {
+                screen.classList.remove('active');
+            });
+            const screen = document.getElementById(screenId);
+            if (screen) {
+                screen.classList.add('active');
+            }
+        }
+
+        // Show app
+        function showApp() {
+            document.getElementById('loginScreen').style.display = 'none';
+            document.getElementById('appContainer').style.display = 'block';
+            updateUI();
+            loadOrders();
+        }
+
+        // Update UI
+        function updateUI() {
+            const user = getCurrentUser();
+            if (!user) return;
+            
+            document.getElementById('walletBalance').textContent = Math.floor(user.coinBalance);
+            document.getElementById('cashBalance').textContent = user.cashBalance.toFixed(2);
+            document.getElementById('escrowBalance').textContent = Math.floor(user.escrowBalance);
+            document.getElementById('totalValue').textContent = (user.coinBalance + user.cashBalance + user.escrowBalance).toFixed(2);
+            document.getElementById('currentUserDisplay').textContent = user.email;
+            document.getElementById('userName').value = user.name;
+            document.getElementById('userEmail').value = user.email;
+            
+            updateOrderBadge();
+        }
+
+        // Update order badge
+        function updateOrderBadge() {
+            const user = getCurrentUser();
+            const activeOrders = appData.orders.filter(o => 
+                (o.buyerEmail === user.email || o.sellerEmail === user.email) &&
+                ['initiated', 'accepted', 'shipped'].includes(o.status)
+            ).length;
+            
+            const badge = document.getElementById('ordersBadge');
+            if (activeOrders > 0) {
+                badge.textContent = activeOrders;
+                badge.style.display = 'inline';
+            } else {
+                badge.style.display = 'none';
+            }
+        }
+
+        // Show message
+        function showMessage(type, text) {
+            const div = document.getElementById('authMessage');
+            if (div) {
+                div.className = type === 'error' ? 'error-message' : 'success-message';
+                div.textContent = text;
+                div.style.display = 'block';
+                setTimeout(() => {
+                    div.style.display = 'none';
+                }, 5000);
+            }
+        }
+
+        // Show notification
+        function showNotification(title, message, type = 'success') {
+            const notification = document.getElementById('notification');
+            const iconDiv = notification.querySelector('.notification-icon');
+            
+            iconDiv.className = `notification-icon ${type}`;
+            iconDiv.textContent = type === 'success' ? '✓' : '✗';
+            
+            notification.querySelector('.notification-title').textContent = title;
+            notification.querySelector('.notification-message').textContent = message;
+            
+            notification.classList.add('show');
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 4000);
+        }
+
+        // Load orders
+        function loadOrders(type = 'buyer') {
+            const user = getCurrentUser();
+            const container = document.getElementById('ordersList');
+            
+            const orders = appData.orders.filter(o => 
+                type === 'buyer' ? o.buyerEmail === user.email : o.sellerEmail === user.email
+            );
+            
+            if (orders.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div style="font-size: 48px;">📦</div>
+                        <h3>No orders yet</h3>
+                        <p>Your orders will appear here</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            container.innerHTML = orders.map(order => `
+                <div class="order-card">
+                    <div class="order-header">
+                        <span class="order-id">Order #${order.id.substring(0, 8)}</span>
+                        <span class="status-badge status-${order.status}">${order.status}</span>
+                    </div>
+                    
+                    <div class="order-amount">
+                        <div class="coin-badge">C</div>
+                        ${order.amount}
+                    </div>
+                    
+                    <div class="order-detail">
+                        <label>Product</label>
+                        <span>${order.productName}</span>
+                    </div>
+                    
+                    <div class="order-detail">
+                        <label>${type === 'buyer' ? 'Seller' : 'Buyer'}</label>
+                        <span>${type === 'buyer' ? order.sellerEmail : order.buyerEmail}</span>
+                    </div>
+                    
+                    ${order.status === 'initiated' && type === 'seller' ? `
+                        <div class="action-section">
+                            <div class="action-buttons">
+                                <button class="btn btn-success" onclick="acceptOrder('${order.id}')">Accept</button>
+                                <button class="btn btn-danger" onclick="rejectOrder('${order.id}')">Reject</button>
+                            </div>
+                        </div>
+                    ` : ''}
+                    
+                    ${order.status === 'accepted' && type === 'seller' ? `
+                        <div class="action-section">
+                            <button class="btn btn-warning" onclick="shipOrder('${order.id}')">Mark as Shipped</button>
+                        </div>
+                    ` : ''}
+                    
+                    ${order.status === 'shipped' && type === 'buyer' ? `
+                        <div class="action-section">
+                            <div class="action-buttons">
+                                <button class="btn btn-success" onclick="confirmDelivery('${order.id}')">Received</button>
+                                <button class="btn btn-danger" onclick="disputeOrder('${order.id}')">Not Received</button>
+                            </div>
+                        </div>
+                    ` : ''}
+                </div>
+            `).join('');
+        }
+
+        // Order actions
+        window.acceptOrder = function(orderId) {
+            const order = appData.orders.find(o => o.id === orderId);
+            if (order) {
+                order.status = 'accepted';
+                saveData();
+                loadOrders('seller');
+                showNotification('Order Accepted', 'Please ship the product', 'success');
+            }
+        };
+
+        window.rejectOrder = function(orderId) {
+            const order = appData.orders.find(o => o.id === orderId);
+            if (order) {
+                order.status = 'cancelled';
+                // Return coins to buyer
+                const buyer = appData.users.find(u => u.email === order.buyerEmail);
+                buyer.escrowBalance -= order.amount;
+                buyer.coinBalance += order.amount;
+                saveData();
+                updateUI();
+                loadOrders('seller');
+                showNotification('Order Rejected', 'Coins returned to buyer', 'success');
+            }
+        };
+
+        window.shipOrder = function(orderId) {
+            const order = appData.orders.find(o => o.id === orderId);
+            if (order) {
+                order.status = 'shipped';
+                saveData();
+                loadOrders('seller');
+                showNotification('Marked as Shipped', 'Waiting for buyer confirmation', 'success');
+            }
+        };
+
+        window.confirmDelivery = function(orderId) {
+            const order = appData.orders.find(o => o.id === orderId);
+            if (order) {
+                order.status = 'completed';
+                // Transfer coins from escrow to seller
+                const buyer = appData.users.find(u => u.email === order.buyerEmail);
+                const seller = appData.users.find(u => u.email === order.sellerEmail);
+                buyer.escrowBalance -= order.amount;
+                seller.coinBalance += order.amount;
+                
+                // Record transaction
+                appData.transactions.push({
+                    id: Date.now().toString(),
+                    type: 'escrow',
+                    from: buyer.email,
+                    to: seller.email,
+                    amount: order.amount,
+                    timestamp: new Date().toISOString()
+                });
+                
+                saveData();
+                updateUI();
+                loadOrders('buyer');
+                showNotification('Order Complete', 'Coins transferred to seller', 'success');
+            }
+        };
+
+        window.disputeOrder = function(orderId) {
+            const order = appData.orders.find(o => o.id === orderId);
+            if (order) {
+                order.status = 'disputed';
+                saveData();
+                loadOrders('buyer');
+                showNotification('Order Disputed', 'Support will review your case', 'error');
+            }
+        };
+
+        // Event Listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeApp();
+            
+            // Check if user is logged in
+            const currentUser = getCurrentUser();
+            if (currentUser) {
+                showApp();
+            }
+            
+            // Tab switching
+            document.getElementById('loginTab').addEventListener('click', function() {
+                this.classList.add('active');
+                document.getElementById('registerTab').classList.remove('active');
+                document.getElementById('loginForm').style.display = 'block';
+                document.getElementById('registerForm').style.display = 'none';
+            });
+
+            document.getElementById('registerTab').addEventListener('click', function() {
+                this.classList.add('active');
+                document.getElementById('loginTab').classList.remove('active');
+                document.getElementById('registerForm').style.display = 'block';
+                document.getElementById('loginForm').style.display = 'none';
+            });
+
+            // Login
+            document.getElementById('loginBtn').addEventListener('click', function() {
+                const email = document.getElementById('loginEmail').value.trim();
+                const password = document.getElementById('loginPassword').value;
+                
+                const user = appData.users.find(u => u.email === email && u.password === password);
+                
+                if (user) {
+                    setCurrentUser(user);
+                    showApp();
+                    showNotification('Welcome Back!', `Logged in as ${user.name}`, 'success');
+                } else {
+                    showMessage('error', 'Invalid email or password');
+                }
+            });
+
+            // Register
+            document.getElementById('registerBtn').addEventListener('click', function() {
+                const name = document.getElementById('registerName').value.trim();
+                const email = document.getElementById('registerEmail').value.trim();
+                const password = document.getElementById('registerPassword').value;
+                
+                if (appData.users.find(u => u.email === email)) {
+                    showMessage('error', 'Email already exists');
+                    return;
+                }
+                
+                const newUser = {
+                    id: Date.now().toString(),
+                    name: name,
+                    email: email,
+                    password: password,
+                    coinBalance: 1000,
+                    cashBalance: 1000,
+                    escrowBalance: 0
+                };
+                
+                appData.users.push(newUser);
+                saveData();
+                
+                showMessage('success', 'Account created! Please login.');
+                document.getElementById('loginTab').click();
+            });
+
+            // Navigation
+            document.getElementById('sendPaymentBtn')?.addEventListener('click', () => {
+                showScreen('sendPaymentScreen');
+                updateSendBalance();
+            });
+
+            document.getElementById('exchangeBtn')?.addEventListener('click', () => showScreen('exchangeScreen'));
+            document.getElementById('businessBtn')?.addEventListener('click', () => showScreen('businessPaymentScreen'));
+            document.getElementById('ordersBtn')?.addEventListener('click', () => {
+                showScreen('ordersScreen');
+                loadOrders('buyer');
+            });
+            document.getElementById('historyBtn')?.addEventListener('click', () => showScreen('historyScreen'));
+            document.getElementById('settingsBtn')?.addEventListener('click', () => showScreen('settingsScreen'));
+            
+            // Back buttons
+            document.getElementById('sendBackBtn')?.addEventListener('click', () => showScreen('homeScreen'));
+            document.getElementById('exchangeBackBtn')?.addEventListener('click', () => showScreen('homeScreen'));
+            document.getElementById('businessBackBtn')?.addEventListener('click', () => showScreen('homeScreen'));
+            document.getElementById('buyBackBtn')?.addEventListener('click', () => showScreen('businessPaymentScreen'));
+            document.getElementById('sellBackBtn')?.addEventListener('click', () => showScreen('businessPaymentScreen'));
+            document.getElementById('ordersBackBtn')?.addEventListener('click', () => showScreen('homeScreen'));
+            document.getElementById('historyBackBtn')?.addEventListener('click', () => showScreen('homeScreen'));
+            document.getElementById('settingsBackBtn')?.addEventListener('click', () => showScreen('homeScreen'));
+
+            // Business payment buttons
+            document.getElementById('buyProductBtn')?.addEventListener('click', () => showScreen('buyProductScreen'));
+            document.getElementById('sellProductBtn')?.addEventListener('click', () => {
+                showScreen('sellProductsScreen');
+                loadSellerOrders();
+            });
+
+            // Place order
+            document.getElementById('placeOrderBtn')?.addEventListener('click', function() {
+                const sellerEmail = document.getElementById('buySellerEmail').value.trim();
+                const productName = document.getElementById('productName').value.trim();
+                const amount = parseInt(document.getElementById('buyAmount').value);
+                const description = document.getElementById('buyDescription').value;
+                
+                const buyer = getCurrentUser();
+                const seller = appData.users.find(u => u.email === sellerEmail);
+                
+                if (!seller) {
+                    showNotification('Error', 'Seller not found', 'error');
+                    return;
+                }
+                
+                if (amount > buyer.coinBalance) {
+                    showNotification('Error', 'Insufficient coins', 'error');
+                    return;
+                }
+                
+                // Move coins to escrow
+                const buyerIndex = appData.users.findIndex(u => u.id === buyer.id);
+                appData.users[buyerIndex].coinBalance -= amount;
+                appData.users[buyerIndex].escrowBalance += amount;
+                
+                // Create order
+                const order = {
+                    id: Date.now().toString(),
+                    buyerEmail: buyer.email,
+                    sellerEmail: sellerEmail,
+                    productName: productName,
+                    amount: amount,
+                    description: description,
+                    status: 'initiated',
+                    createdAt: new Date().toISOString()
+                };
+                
+                appData.orders.push(order);
+                saveData();
+                updateUI();
+                
+                showNotification('Order Placed', `${amount} coins held in escrow`, 'success');
+                
+                // Clear form
+                document.getElementById('buySellerEmail').value = '';
+                document.getElementById('productName').value = '';
+                document.getElementById('buyAmount').value = '';
+                document.getElementById('buyDescription').value = '';
+                
+                showScreen('ordersScreen');
+                loadOrders('buyer');
+            });
+
+            // Load seller orders
+            function loadSellerOrders() {
+                const user = getCurrentUser();
+                const container = document.getElementById('sellerOrdersList');
+                
+                const orders = appData.orders.filter(o => o.sellerEmail === user.email);
+                
+                if (orders.length === 0) {
+                    container.innerHTML = `
+                        <div class="empty-state">
+                            <div style="font-size: 48px;">📦</div>
+                            <h3>No incoming orders</h3>
+                            <p>Orders from buyers will appear here</p>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                container.innerHTML = orders.map(order => `
+                    <div class="order-card">
+                        <div class="order-header">
+                            <span class="order-id">Order #${order.id.substring(0, 8)}</span>
+                            <span class="status-badge status-${order.status}">${order.status}</span>
+                        </div>
+                        
+                        <div class="order-amount">
+                            <div class="coin-badge">C</div>
+                            ${order.amount}
+                        </div>
+                        
+                        <div class="order-detail">
+                            <label>Product</label>
+                            <span>${order.productName}</span>
+                        </div>
+                        
+                        <div class="order-detail">
+                            <label>Buyer</label>
+                            <span>${order.buyerEmail}</span>
+                        </div>
+                        
+                        ${order.status === 'initiated' ? `
+                            <div class="action-section">
+                                <div class="action-buttons">
+                                    <button class="btn btn-success" onclick="acceptOrder('${order.id}')">Accept</button>
+                                    <button class="btn btn-danger" onclick="rejectOrder('${order.id}')">Reject</button>
+                                </div>
+                            </div>
+                        ` : ''}
+                        
+                        ${order.status === 'accepted' ? `
+                            <div class="action-section">
+                                <button class="btn btn-warning" onclick="shipOrder('${order.id}')">Mark as Shipped</button>
+                            </div>
+                        ` : ''}
+                    </div>
+                `).join('');
+            }
+
+            // Order tabs
+            document.getElementById('buyerOrdersTab')?.addEventListener('click', function() {
+                this.classList.add('active');
+                document.getElementById('sellerOrdersTab').classList.remove('active');
+                loadOrders('buyer');
+            });
+
+            document.getElementById('sellerOrdersTab')?.addEventListener('click', function() {
+                this.classList.add('active');
+                document.getElementById('buyerOrdersTab').classList.remove('active');
+                loadOrders('seller');
+            });
+
+            // Exchange tabs
+            document.getElementById('coinToCashTab')?.addEventListener('click', function() {
+                this.classList.add('active');
+                document.getElementById('cashToCoinTab').classList.remove('active');
+                document.getElementById('coinToCashForm').style.display = 'block';
+                document.getElementById('cashToCoinForm').style.display = 'none';
+            });
+
+            document.getElementById('cashToCoinTab')?.addEventListener('click', function() {
+                this.classList.add('active');
+                document.getElementById('coinToCashTab').classList.remove('active');
+                document.getElementById('cashToCoinForm').style.display = 'block';
+                document.getElementById('coinToCashForm').style.display = 'none';
+            });
+
+            // Exchange preview
+            document.getElementById('coinAmount')?.addEventListener('input', function() {
+                const amount = parseFloat(this.value) || 0;
+                document.getElementById('coinToCashPreview').textContent = `You will receive: $${amount.toFixed(2)}`;
+            });
+
+            document.getElementById('cashAmount')?.addEventListener('input', function() {
+                const amount = parseFloat(this.value) || 0;
+                document.getElementById('cashToCoinPreview').textContent = `You will receive: ${amount.toFixed(0)} Coins`;
+            });
+
+            // Convert buttons
+            document.getElementById('convertToCashBtn')?.addEventListener('click', function() {
+                const amount = parseFloat(document.getElementById('coinAmount').value);
+                const user = getCurrentUser();
+                
+                if (amount > user.coinBalance) {
+                    showNotification('Error', 'Insufficient coins', 'error');
+                    return;
+                }
+                
+                const userIndex = appData.users.findIndex(u => u.id === user.id);
+                appData.users[userIndex].coinBalance -= amount;
+                appData.users[userIndex].cashBalance += amount;
+                
+                saveData();
+                updateUI();
+                
+                showNotification('Exchange Complete', `${amount} coins converted to $${amount}`, 'success');
+                document.getElementById('coinAmount').value = '';
+                document.getElementById('coinToCashPreview').textContent = 'You will receive: $0.00';
+            });
+
+            document.getElementById('convertToCoinBtn')?.addEventListener('click', function() {
+                const amount = parseFloat(document.getElementById('cashAmount').value);
+                const user = getCurrentUser();
+                
+                if (amount > user.cashBalance) {
+                    showNotification('Error', 'Insufficient cash', 'error');
+                    return;
+                }
+                
+                const userIndex = appData.users.findIndex(u => u.id === user.id);
+                appData.users[userIndex].cashBalance -= amount;
+                appData.users[userIndex].coinBalance += amount;
+                
+                saveData();
+                updateUI();
+                
+                showNotification('Exchange Complete', `$${amount} converted to ${amount} coins`, 'success');
+                document.getElementById('cashAmount').value = '';
+                document.getElementById('cashToCoinPreview').textContent = 'You will receive: 0 Coins';
+            });
+
+            // Send payment
+            document.getElementById('sendPaymentType')?.addEventListener('change', updateSendBalance);
+
+            function updateSendBalance() {
+                const type = document.getElementById('sendPaymentType').value;
+                const user = getCurrentUser();
+                const balance = type === 'coins' ? user.coinBalance : user.cashBalance;
+                const symbol = type === 'coins' ? 'Coins' : '$';
+                document.getElementById('sendBalanceInfo').textContent = `Available: ${symbol}${balance.toFixed(2)}`;
+            }
+
+            document.getElementById('sendPaymentSubmitBtn')?.addEventListener('click', function() {
+                const recipientEmail = document.getElementById('sendRecipientEmail').value.trim();
+                const paymentType = document.getElementById('sendPaymentType').value;
+                const amount = parseFloat(document.getElementById('sendAmount').value);
+                
+                const sender = getCurrentUser();
+                const recipient = appData.users.find(u => u.email === recipientEmail);
+                
+                if (!recipient) {
+                    showNotification('Error', 'Recipient not found', 'error');
+                    return;
+                }
+                
+                if (recipient.id === sender.id) {
+                    showNotification('Error', 'Cannot send to yourself', 'error');
+                    return;
+                }
+                
+                const balance = paymentType === 'coins' ? sender.coinBalance : sender.cashBalance;
+                
+                if (amount > balance) {
+                    showNotification('Error', 'Insufficient balance', 'error');
+                    return;
+                }
+                
+                // Process payment
+                const senderIndex = appData.users.findIndex(u => u.id === sender.id);
+                const recipientIndex = appData.users.findIndex(u => u.id === recipient.id);
+                
+                if (paymentType === 'coins') {
+                    appData.users[senderIndex].coinBalance -= amount;
+                    appData.users[recipientIndex].coinBalance += amount;
+                } else {
+                    appData.users[senderIndex].cashBalance -= amount;
+                    appData.users[recipientIndex].cashBalance += amount;
+                }
+                
+                // Record transaction
+                appData.transactions.push({
+                    id: Date.now().toString(),
+                    type: 'transfer',
+                    from: sender.email,
+                    to: recipient.email,
+                    amount: amount,
+                    paymentType: paymentType,
+                    timestamp: new Date().toISOString()
+                });
+                
+                saveData();
+                updateUI();
+                
+                showNotification('Payment Sent', `${amount} ${paymentType} sent to ${recipientEmail}`, 'success');
+                
+                // Clear form
+                document.getElementById('sendRecipientEmail').value = '';
+                document.getElementById('sendAmount').value = '';
+                
+                showScreen('homeScreen');
+            });
+
+            // Add test funds
+            document.getElementById('addTestFundsBtn')?.addEventListener('click', function() {
+                const user = getCurrentUser();
+                const userIndex = appData.users.findIndex(u => u.id === user.id);
+                
+                appData.users[userIndex].coinBalance += 500;
+                appData.users[userIndex].cashBalance += 500;
+                
+                saveData();
+                updateUI();
+                
+                showNotification('Funds Added', '500 coins and $500 cash added', 'success');
+            });
+
+            // Logout
+            document.getElementById('logoutBtn')?.addEventListener('click', function() {
+                sessionStorage.removeItem('currentUser');
+                document.getElementById('appContainer').style.display = 'none';
+                document.getElementById('loginScreen').style.display = 'block';
+                showNotification('Logged Out', 'You have been signed out', 'success');
+            });
+        });
+    </script>
+</body>
+</html>
